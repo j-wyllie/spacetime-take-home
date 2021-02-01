@@ -8,7 +8,6 @@ import FieldBox from '../field-box/FieldBox';
 
 const FormImg = styled.img`
     width: 50vw;
-    margin: 2rem;
  `; 
  
 export default function Viewer () {
@@ -21,12 +20,6 @@ export default function Viewer () {
         dispatch(setResponseDataAsync(currentForm.response))
     }, [currentForm.response]) 
 
-    console.log('rendering viewer: ', responseData);
-    console.log('rendering viewer data:', responseData && responseData.analyzeResult && responseData.analyzeResult.documentResults.map(({ fields = {}}) => Object.entries(fields)
-        .map(([key, value]: any[]) => console.log(key))
-    ));
-    
-
     return (
         <div className={styles.viewerContainer}>
             <FormImg src={imagePath}/>
@@ -35,7 +28,7 @@ export default function Viewer () {
                     .map(({ fields = {}}) => {
                         return (
                             Object.entries(fields).map(
-                                ([key, value]: any[]) => <FieldBox name={key} data={value}/> 
+                                ([key, value]: any[]) => <FieldBox name={key} data={value} imageWidth={window.innerWidth / 2}/> 
                             )
                         )
                     })
