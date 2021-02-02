@@ -4,10 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 type FieldBoxProps = {
   name: string,
   data: any,
-  imageWidth: number 
+  imageWidth: number,
+  imageHeight: number,
+  imageWidthOriginal: number,
+  imageHeightOriginal: number 
 };
 
-export default function FieldBox ({ name, data, imageWidth }: FieldBoxProps) {
+export default function FieldBox ({ name, data, imageWidth, imageHeight, imageWidthOriginal, imageHeightOriginal }: FieldBoxProps) {
   const dispatch = useDispatch();
 
   const {
@@ -19,13 +22,14 @@ export default function FieldBox ({ name, data, imageWidth }: FieldBoxProps) {
     ]
   } = data; 
 
-  const width  = x2 - x1;
-  const height = y3 - y2;
-  const rectX = x1 / 2 - width / 2;
-  const rectY = y1 / 2 - height / 2;
+  const scale  = imageWidth / imageWidthOriginal;
+  const width  = (x2 - x1) * scale;
+  const height = (y3 - y2) * scale;
+  const rectX  = x1 * scale; 
+  const rectY  = y1 * scale;
 
   return (
-    <svg width={window.innerWidth / 2} height={window.innerHeight}>
+    <svg width={imageWidth} height={imageHeight}>
       <rect x={rectX} y={rectY} width={width} height={height}
       style={{stroke: 'red', strokeWidth: 2, fill: 'rgba(0,0,0,0)'}} />
     </svg>
