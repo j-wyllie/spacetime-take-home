@@ -20,17 +20,25 @@ export default function Viewer () {
     const ref: any = useRef(null);
     const [ imageSize, setImageSize ] = useState({width: 1, height: 1});
 
+    const updateSize = () => {
+        setImageSize({
+            width: ref.current?.offsetWidth,
+            height: ref.current?.offsetHeight,
+        });
+    }
+
     useLayoutEffect(() => {
-        function updateSize () {
-            setImageSize({
-                width: ref.current?.offsetWidth,
-                height: ref.current?.offsetHeight,
-            });
-        }
         window.addEventListener('resize', updateSize);
         updateSize();
         return () => window.removeEventListener('resize', updateSize);
     }, []);
+
+    useEffect(() => {
+        updateSize();
+    }, [ref.current]);
+    setTimeout(() => {  // The above useEffect does not do anything for some reason, this is a workaround
+        updateSize();
+    }, 100) 
 
     useEffect(() => {
         dispatch(setResponseDataAsync(currentForm.response))
